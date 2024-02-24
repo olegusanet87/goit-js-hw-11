@@ -2,6 +2,8 @@
 import { searchImages } from './js/pixabay-api.js';
 import { displayImages, clearGallery, displayErrorMessage } from './js/render-functions.js';
 
+
+
 document.getElementById('search-form').addEventListener('submit', function (event) {
 	event.preventDefault();
 
@@ -12,7 +14,7 @@ document.getElementById('search-form').addEventListener('submit', function (even
 		return;
 	}
 
-	clearGallery(); // Очищаємо галерею перед новим пошуком
+	clearGallery(); 
 
 	searchImages(searchTerm)
 		.then(images => {

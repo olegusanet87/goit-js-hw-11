@@ -6,11 +6,54 @@ export function clearGallery() {
 export function displayImages(images) {
 	clearGallery();
 
-	const gallery = document.getElementById('gallery');
-	images.forEach(image => {
-		const card = createImageCard(image);
-		gallery.appendChild(card);
+	const gallery = document.querySelector('.gallery');
+	const fragment = document.createDocumentFragment();
+
+	images.forEach(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => {
+		const galleryItem = document.createElement('li');
+		galleryItem.classList.add('gallery-item');
+
+		const galleryLink = document.createElement('a');
+		galleryLink.classList.add('gallery-link');
+		galleryLink.href = largeImageURL;
+
+		const img = document.createElement('img');
+		img.classList.add('gallery-image');
+		img.src = webformatURL;
+		img.dataset.source = largeImageURL;
+		img.alt = tags;
+		galleryLink.appendChild(img);
+		galleryItem.appendChild(galleryLink);
+
+		const infoContainer = document.createElement('div');
+		infoContainer.classList.add('image-info');
+
+		const likesInfo = document.createElement('span');
+		likesInfo.classList.add('likes');
+		likesInfo.textContent = `Likes: ${likes}`;
+		infoContainer.appendChild(likesInfo);
+
+		const viewsInfo = document.createElement('span');
+		viewsInfo.classList.add('views');
+		viewsInfo.textContent = `Views: ${views}`;
+		infoContainer.appendChild(viewsInfo);
+
+		const commentsInfo = document.createElement('span');
+		commentsInfo.classList.add('comments');
+		commentsInfo.textContent = `Comments: ${comments}`;
+		infoContainer.appendChild(commentsInfo);
+
+		const downloadsInfo = document.createElement('span');
+		downloadsInfo.classList.add('downloads');
+		downloadsInfo.textContent = `Downloads: ${downloads}`;
+		infoContainer.appendChild(downloadsInfo);
+
+		galleryItem.appendChild(infoContainer);
+
+		fragment.appendChild(galleryItem);
 	});
+
+	gallery.appendChild(fragment);
 }
 
 function createImageCard(image) {
@@ -51,38 +94,9 @@ function createImageCard(image) {
 
 	return card;
 }
-Тепер в файлі main.js ви можете використовувати ці функції для відображення зображень після отримання їх з сервера.Наприклад:
-
-javascript
-Copy code
 
 
 
 
 
 
-
-const gallery = document.querySelector('.gallery');
-console.log(gallery);
-
-const fragment = document.createDocumentFragment();
-
-images.forEach(({ preview: smallImage, original: largeImage, description: imageAlt }) => {
-	const galleryItem = document.createElement('li');
-	galleryItem.classList.add('gallery-item');
-
-	const galleryLink = document.createElement('a');
-	galleryLink.classList.add('gallery-link');
-	galleryLink.href = largeImage;
-
-	const img = document.createElement('img');
-	img.classList.add('gallery-image');
-	img.src = smallImage;
-	img.dataset.source = largeImage;
-	img.alt = imageAlt;
-	galleryLink.appendChild(img);
-	galleryItem.appendChild(galleryLink);
-	fragment.appendChild(galleryItem);
-});
-
-gallery.appendChild(fragment);

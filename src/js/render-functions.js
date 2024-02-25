@@ -1,3 +1,12 @@
+import SimpleLightbox from "simplelightbox";
+
+import "simplelightbox/dist/simple-lightbox.min.css";
+import iziToast from "izitoast";
+
+import "izitoast/dist/css/iziToast.min.css";
+
+import Error from '../img/bi_x-octagon.svg';
+
 export function clearGallery() {
 	const gallery = document.getElementById('gallery');
 	gallery.innerHTML = '';
@@ -15,88 +24,85 @@ export function displayImages(images) {
 
 		const galleryLink = document.createElement('a');
 		galleryLink.classList.add('gallery-link');
-		galleryLink.href = largeImageURL;
+		galleryLink.href = `${largeImageURL}`;
 
 		const img = document.createElement('img');
 		img.classList.add('gallery-image');
-		img.src = webformatURL;
-		img.dataset.source = largeImageURL;
+		img.src = `${webformatURL}`;
 		img.alt = tags;
 		galleryLink.appendChild(img);
 		galleryItem.appendChild(galleryLink);
 
 		const infoContainer = document.createElement('div');
-		infoContainer.classList.add('image-info');
+		infoContainer.classList.add('image-details');
 
-		const likesInfo = document.createElement('span');
-		likesInfo.classList.add('likes');
-		likesInfo.textContent = `Likes: ${likes}`;
-		infoContainer.appendChild(likesInfo);
+		const likesLabel = document.createElement('span');
+		likesLabel.classList.add('detail-label');
+		likesLabel.textContent = 'Likes:';
+		infoContainer.appendChild(likesLabel);
 
-		const viewsInfo = document.createElement('span');
-		viewsInfo.classList.add('views');
-		viewsInfo.textContent = `Views: ${views}`;
-		infoContainer.appendChild(viewsInfo);
+		const likesValue = document.createElement('span');
+		likesValue.classList.add('detail-value');
+		likesValue.textContent = `${likes}`;
+		infoContainer.appendChild(likesValue);
 
-		const commentsInfo = document.createElement('span');
-		commentsInfo.classList.add('comments');
-		commentsInfo.textContent = `Comments: ${comments}`;
-		infoContainer.appendChild(commentsInfo);
+		const viewsLabel = document.createElement('span');
+		viewsLabel.classList.add('detail-label');
+		viewsLabel.textContent = 'Views:';
+		infoContainer.appendChild(viewsLabel);
 
-		const downloadsInfo = document.createElement('span');
-		downloadsInfo.classList.add('downloads');
-		downloadsInfo.textContent = `Downloads: ${downloads}`;
-		infoContainer.appendChild(downloadsInfo);
+		const viewsValue = document.createElement('span');
+		viewsValue.classList.add('detail-value');
+		viewsValue.textContent = `${views}`;
+		infoContainer.appendChild(viewsValue);
+
+		const commentsLabel = document.createElement('span');
+		commentsLabel.classList.add('detail-label');
+		commentsLabel.textContent = 'Comments:';
+		infoContainer.appendChild(commentsLabel);
+
+		const commentsValue = document.createElement('span');
+		commentsValue.classList.add('detail-value');
+		commentsValue.textContent = `${comments}`;
+		infoContainer.appendChild(commentsValue);
+
+		const downloadsLabel = document.createElement('span');
+		downloadsLabel.classList.add('detail-label');
+		downloadsLabel.textContent = 'Downloads:';
+		infoContainer.appendChild(downloadsLabel);
+
+		const downloadsValue = document.createElement('span');
+		downloadsValue.classList.add('detail-value');
+		downloadsValue.textContent = `${downloads}`;
+		infoContainer.appendChild(downloadsValue);
 
 		galleryItem.appendChild(infoContainer);
-
 		fragment.appendChild(galleryItem);
 	});
 
 	gallery.appendChild(fragment);
-}
+	const lightbox = new SimpleLightbox('.gallery a', {
+		captionsData: 'alt',
+		captionDelay: 250
+	});
 
-function createImageCard(image) {
-	const card = document.createElement('div');
-	card.classList.add('card');
-
-	const img = document.createElement('img');
-	img.classList.add('card-img-top');
-	img.src = image.webformatURL;
-	img.alt = image.tags;
-
-	const cardBody = document.createElement('div');
-	cardBody.classList.add('card-body');
-
-	const likes = document.createElement('p');
-	likes.classList.add('card-text');
-	likes.textContent = `Likes: ${image.likes}`;
-
-	const views = document.createElement('p');
-	views.classList.add('card-text');
-	views.textContent = `Views: ${image.views}`;
-
-	const comments = document.createElement('p');
-	comments.classList.add('card-text');
-	comments.textContent = `Comments: ${image.comments}`;
-
-	const downloads = document.createElement('p');
-	downloads.classList.add('card-text');
-	downloads.textContent = `Downloads: ${image.downloads}`;
-
-	cardBody.appendChild(likes);
-	cardBody.appendChild(views);
-	cardBody.appendChild(comments);
-	cardBody.appendChild(downloads);
-
-	card.appendChild(img);
-	card.appendChild(cardBody);
-
-	return card;
 }
 
 
 
-
+export function displayErrorMessage(message) {
+	iziToast.error({
+		title: 'Error',
+		message: message,
+		position: 'topCenter',
+		class: 'popup-message',
+		theme: 'dark',
+		backgroundColor: '#ef4040',
+		messageColor: '#fff',
+		position: 'topRight',
+		timeout: 3000,
+		iconUrl: Error
+	});
+}
 
 

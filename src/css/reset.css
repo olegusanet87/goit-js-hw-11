@@ -1,11 +1,24 @@
 /* Reset styles */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body,
 h1,
 h2,
 h3,
 h4,
-h5,
-h6,
-p {
+p,
+ul[class],
+ol[class],
+li,
+figure,
+figcaption,
+blockquote,
+dl,
+dd {
   margin: 0;
 }
 
